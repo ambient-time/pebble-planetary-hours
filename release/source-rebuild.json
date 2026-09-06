@@ -1,0 +1,86 @@
+{
+  "sourceZIP": "planetary-hours-0.1.0-source.zip",
+  "sourceZIPSHA256": "eb0786f800fc00018878bf13a7a0722e7889fbea53ed72cdd50b016fb604847e",
+  "pbwSHA256": "0c51124e85d5b8c538fcc90fdde1b1f4fa70dbe68f0480b9e18714df30e8d68f",
+  "sdk": "4.33.1",
+  "checkedAt": "2026-09-06T20:21:43.352242+00:00",
+  "buildDirectory": "/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/planetary-hours-source-check-w49zt9hg/planetary-hours",
+  "result": "passed",
+  "hostChecks": "native sanitizer boundary checks, 907 solar/source checks, 20 phone scenarios and built-companion event checks",
+  "platforms": {
+    "basalt": {
+      "resourceSHA256": "e7a674d3bde6cda016a297e0598e999f448b8de8fb0fa686044ee2c062d7057c",
+      "binaryMatchesExceptBuildMetadata": true,
+      "normalizedBinarySHA256": "10c6bb7f0dfccf7874a92789070a91cbb0b1d82c75e2b4f4685dc5a205c93419",
+      "ignoredFields": [
+        "verified internal CRC at 0x14",
+        "SDK resource timestamp at 0x7c",
+        "GNU build-id payload at 0x94"
+      ],
+      "binarySHA256": "887b89c3c70c0d3a57a2ee8679da128ea049163d0540b86a1fba8a3d62c2d062",
+      "binaryMatchesRelease": false
+    },
+    "diorite": {
+      "resourceSHA256": "e7a674d3bde6cda016a297e0598e999f448b8de8fb0fa686044ee2c062d7057c",
+      "binaryMatchesExceptBuildMetadata": true,
+      "normalizedBinarySHA256": "bae3ede3877a34b39a2fae9131c44578abd0cc177714ac2c976c7c496c47b6e9",
+      "ignoredFields": [
+        "verified internal CRC at 0x14",
+        "SDK resource timestamp at 0x7c",
+        "GNU build-id payload at 0x94"
+      ],
+      "binarySHA256": "ec3dc0170c52da847f19475f9ee0b3b8781965d28bfe5f2c4ae28d8a89cc126b",
+      "binaryMatchesRelease": false
+    },
+    "emery": {
+      "resourceSHA256": "e7a674d3bde6cda016a297e0598e999f448b8de8fb0fa686044ee2c062d7057c",
+      "binaryMatchesExceptBuildMetadata": true,
+      "normalizedBinarySHA256": "b87407357bf262a11d3377a699c526b7213544d0e6e75d2318e83d081d5c88d2",
+      "ignoredFields": [
+        "verified internal CRC at 0x14",
+        "SDK resource timestamp at 0x7c",
+        "GNU build-id payload at 0x94"
+      ],
+      "binarySHA256": "8c2fd4ff4280e6c35a0884db584e527179653b897f74c10bf821b67411b1b909",
+      "binaryMatchesRelease": false
+    },
+    "flint": {
+      "resourceSHA256": "e7a674d3bde6cda016a297e0598e999f448b8de8fb0fa686044ee2c062d7057c",
+      "binaryMatchesExceptBuildMetadata": true,
+      "normalizedBinarySHA256": "de64a260560d3116b86d4031e84343a869782c8a9273cdbb83626ab83b56c1cf",
+      "ignoredFields": [
+        "verified internal CRC at 0x14",
+        "SDK resource timestamp at 0x7c",
+        "GNU build-id payload at 0x94"
+      ],
+      "binarySHA256": "30b5f19ecb9e61fcf8e7622d76c476acff5c1a730719cc885099e2e2fa7ad17e",
+      "binaryMatchesRelease": false
+    },
+    "chalk": {
+      "resourceSHA256": "e7a674d3bde6cda016a297e0598e999f448b8de8fb0fa686044ee2c062d7057c",
+      "binaryMatchesExceptBuildMetadata": true,
+      "normalizedBinarySHA256": "73b57e189e5196046355dcd80b39f03e0dc20cb42783d788f239394dee2a1d92",
+      "ignoredFields": [
+        "verified internal CRC at 0x14",
+        "SDK resource timestamp at 0x7c",
+        "GNU build-id payload at 0x94"
+      ],
+      "binarySHA256": "1b6c21d9071506e181af33cd763a245c708ddac9af1c53a7a5ab6d60e5863f65",
+      "binaryMatchesRelease": false
+    },
+    "gabbro": {
+      "resourceSHA256": "e7a674d3bde6cda016a297e0598e999f448b8de8fb0fa686044ee2c062d7057c",
+      "binaryMatchesExceptBuildMetadata": true,
+      "normalizedBinarySHA256": "ed1d1636e4bd9da393d06d0547243e640bdd1abfbf9f0f42edd132182d708d07",
+      "ignoredFields": [
+        "verified internal CRC at 0x14",
+        "SDK resource timestamp at 0x7c",
+        "GNU build-id payload at 0x94"
+      ],
+      "binarySHA256": "44f67f950ed4ac157e1f8fadc9c6daeb1197a5b8820bcc5e64cefc497cdf5886",
+      "binaryMatchesRelease": false
+    }
+  },
+  "phoneCompanionIdentical": true,
+  "limits": "Independent local SDK build from root-level ZIP. CloudPebble import still needs its own check."
+}

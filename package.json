@@ -1,0 +1,19 @@
+{
+  "name": "planetary-hours",
+  "author": "Luke Steuber",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {},
+  "pebble": {
+    "displayName": "Planetary Hours",
+    "companyName": "Luke Steuber",
+    "uuid": "70cc559e-2c8d-4b47-acec-46f1dce646c8",
+    "sdkVersion": "3",
+    "enableMultiJS": true,
+    "targetPlatforms": ["basalt", "diorite", "emery", "flint", "chalk", "gabbro"],
+    "capabilities": ["location"],
+    "messageKeys": {"REQUEST": 0, "DATA": 1},
+    "watchapp": {"watchface": true},
+    "resources": {"media": [{"type":"bitmap","name":"IMAGE_MENU_ICON","file":"images/menu-icon.png","menuIcon":true}]}
+  }
+}

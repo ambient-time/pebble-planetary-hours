@@ -1,0 +1,549 @@
+<!doctype html>
+<!--
+  Quick Take: The classical unequal-hour ruler: day and night each split into twelve planetary hours in Chaldean order.
+  Stack: Self-contained; no external libraries.
+  Source: https://datapoems.io/clocks/planetary-hours/
+  License: MIT
+  Author: Luke Steuber
+-->
+<html class="collection-export embed" lang="en"><head>
+<script>window.CLOCK_COLLECTION_EXPORT=true;</script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark"><meta name="theme-color" content="#040912">
+<title>Planetary Hours</title>
+<meta name="description" content="The classical unequal-hour ruler: day and night each split into twelve planetary hours in Chaldean order, with the current ruling planet and a countdown.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { color-scheme: dark; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; background: #040912; overflow: hidden; font-family: 'JetBrains Mono', ui-monospace, monospace; }
+  #scene { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+  .overlay {
+    position: fixed; inset: 0; z-index: 2; pointer-events: none;
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+    padding: 0 6vw 7vh; text-align: center; color: #cfe8ff;
+  }
+  .read {
+    font-weight: 700; font-size: clamp(1.3rem, 5.4vw, 3.2rem); letter-spacing: 0.05em;
+    text-transform: uppercase; color: #5cd9ff; text-shadow: 0 0 24px rgba(92,217,255,.35);
+    font-variant-numeric: tabular-nums;
+  }
+  .sub {
+    margin-top: 1.2vh; font-weight: 600; font-size: clamp(0.78rem, 2.4vw, 1.3rem);
+    letter-spacing: 0.2em; text-transform: uppercase; color: #f5b441; font-variant-numeric: tabular-nums;
+  }
+  .help {
+    position: fixed; right: max(20px, env(safe-area-inset-right)); top: max(16px, env(safe-area-inset-top)); z-index: 5;
+    width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; border: 1px solid rgba(92,217,255,.35); color: rgba(207,232,255,.85);
+    text-decoration: none; font-weight: 700; font-size: 1.2rem; background: rgba(4,9,18,.4);
+    backdrop-filter: blur(4px); transition: background .25s, border-color .25s, transform .25s;
+  }
+  .help:hover, .help:focus-visible { background: rgba(92,217,255,.12); border-color: #5cd9ff; transform: scale(1.06); outline: none; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  @media (min-width:1900px),(min-height:1900px){
+    .read { font-size: clamp(2rem, 5.4vw, 5rem); }
+    .sub { font-size: clamp(1.1rem, 2.4vw, 2.1rem); }
+    .help { width: 60px; height: 60px; font-size: 1.9rem; }
+  }
+</style>
+<style data-collection-chrome>
+.dev-controls,
+.study-controls,
+.help,
+.back,
+.about-backdrop,
+.about-modal,
+.about-card,
+.gate-controls,
+a[aria-label*='about' i],
+button[aria-label*='about' i],
+a[aria-label*='help' i],
+button[aria-label*='help' i],
+a[aria-label*='all clocks' i],
+button[aria-label*='all clocks' i],
+a[aria-label*='clock gallery' i],
+button[aria-label*='clock gallery' i]{display:none!important}
+</style>
+</head><body class="collection-export embed">
+  <canvas id="scene" role="img" aria-label="A wheel of twenty-four planetary hours, twelve unequal day hours and twelve night hours in Chaldean order, with the current hour glowing."></canvas>
+  <div class="overlay" aria-hidden="true">
+    <div class="read" id="read">--</div>
+    <div class="sub" id="sub"></div>
+  </div>
+  <a class="help" href="https://lukesteuber.com" aria-label="Luke Steuber's website">?</a>
+  <div class="sr-only" id="sr" aria-live="polite"></div>
+  <!--inlined:astro.js-->
+<script>
+/* Astro: pure astronomical calculations from (date, lat, lon). The web twin of
+ * ClocksCore/Astro.swift — keep them identical (see ASTRO_CONSTANTS.md).
+ * Longitude east-positive; angles in degrees; all math in UTC. sunrise/sunset
+ * return null at high latitude on polar day/night.
+ *
+ * Attaches a global `Astro`. Load with:
+ *   <script src="/clocks/shared/astro.js"><\/script>
+ */
+(function (root) {
+  'use strict';
+
+  var REFRACTION_ELEVATION = -0.833;     // sun-center elevation at sunrise/sunset
+  var SYNODIC_MONTH = 29.530588853;      // mean lunation (days)
+  var NEW_MOON_JD = 2451550.1;           // 2000-01-06 18:14 UTC, year-agnostic
+  var JD_UNIX_EPOCH = 2440587.5;
+  var DEG = Math.PI / 180;
+
+  function julianDay(date) {
+    return date.getTime() / 86400000 + JD_UNIX_EPOCH;
+  }
+
+  // declination (deg), equation of time (min), apparent longitude lambda (0..360)
+  function solarTerms(date) {
+    var jd = julianDay(date);
+    var T = (jd - 2451545) / 36525;
+    var L0 = (280.46646 + T * (36000.76983 + T * 0.0003032)) % 360;
+    if (L0 < 0) L0 += 360;
+    var M = 357.52911 + T * (35999.05029 - 0.0001537 * T);
+    var e = 0.016708634 - T * (0.000042037 + 0.0000001267 * T);
+    var mr = M * DEG;
+    var C = Math.sin(mr) * (1.914602 - T * (0.004817 + 0.000014 * T)) +
+      Math.sin(2 * mr) * (0.019993 - 0.000101 * T) + Math.sin(3 * mr) * 0.000289;
+    var trueLong = L0 + C;
+    var omega = 125.04 - 1934.136 * T;
+    var lambda = trueLong - 0.00569 - 0.00478 * Math.sin(omega * DEG);
+    var secondsOb = 21.448 - T * (46.815 + T * (0.00059 - T * 0.001813));
+    var obliq = (23 + (26 + secondsOb / 60) / 60 + 0.00256 * Math.cos(omega * DEG)) * DEG;
+    var decl = Math.asin(Math.sin(obliq) * Math.sin(lambda * DEG)) / DEG;
+    var y = Math.tan(obliq / 2); y *= y;
+    var L0r = L0 * DEG;
+    var eq = 4 / DEG * (y * Math.sin(2 * L0r) - 2 * e * Math.sin(mr) +
+      4 * e * y * Math.sin(mr) * Math.cos(2 * L0r) -
+      0.5 * y * y * Math.sin(4 * L0r) - 1.25 * e * e * Math.sin(2 * mr));
+    var lambdaNorm = ((lambda % 360) + 360) % 360;
+    return { declination: decl, equationOfTime: eq, longitude: lambdaNorm };
+  }
+
+  function solarElevation(date, lat, lon) {
+    var t = solarTerms(date);
+    var declR = t.declination * DEG;
+    var utcMinutes = date.getUTCHours() * 60 + date.getUTCMinutes() + date.getUTCSeconds() / 60;
+    var trueSolar = (((utcMinutes + t.equationOfTime + 4 * lon) % 1440) + 1440) % 1440;
+    var hourAngle = (trueSolar / 4 - 180) * DEG;
+    var phi = lat * DEG;
+    return Math.asin(Math.sin(phi) * Math.sin(declR) +
+      Math.cos(phi) * Math.cos(declR) * Math.cos(hourAngle)) / DEG;
+  }
+
+  function utcDayStart(date) {
+    return Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+  }
+
+  function sunEvent(date, lat, lon, rising) {
+    var dayStart = utcDayStart(date);
+    var noon = new Date(dayStart + 12 * 3600000);
+    var t = solarTerms(noon);
+    var declR = t.declination * DEG;
+    var phi = lat * DEG;
+    var cosH = (Math.sin(REFRACTION_ELEVATION * DEG) - Math.sin(phi) * Math.sin(declR)) /
+      (Math.cos(phi) * Math.cos(declR));
+    if (cosH > 1 || cosH < -1) return null;            // polar day / night
+    var hDeg = Math.acos(cosH) / DEG;
+    var noonMinutes = 720 - 4 * lon - t.equationOfTime;
+    var eventMinutes = rising ? noonMinutes - 4 * hDeg : noonMinutes + 4 * hDeg;
+    return new Date(dayStart + eventMinutes * 60000);
+  }
+
+  function sunrise(date, lat, lon) { return sunEvent(date, lat, lon, true); }
+  function sunset(date, lat, lon) { return sunEvent(date, lat, lon, false); }
+
+  function daylightLength(date, lat, lon) {
+    var r = sunrise(date, lat, lon), s = sunset(date, lat, lon);
+    if (!r || !s) return null;
+    return (s.getTime() - r.getTime()) / 1000;          // seconds
+  }
+
+  function moonPhase(date) {
+    var p = ((julianDay(date) - NEW_MOON_JD) % SYNODIC_MONTH) / SYNODIC_MONTH;
+    if (p < 0) p += 1;
+    return p;
+  }
+  function moonAgeDays(date) { return moonPhase(date) * SYNODIC_MONTH; }
+  function moonIllumination(date) { return (1 - Math.cos(2 * Math.PI * moonPhase(date))) / 2; }
+  function moonPhaseName(date) {
+    var p = moonPhase(date);
+    if (p < 0.0625 || p >= 0.9375) return 'New Moon';
+    if (p < 0.1875) return 'Waxing Crescent';
+    if (p < 0.3125) return 'First Quarter';
+    if (p < 0.4375) return 'Waxing Gibbous';
+    if (p < 0.5625) return 'Full Moon';
+    if (p < 0.6875) return 'Waning Gibbous';
+    if (p < 0.8125) return 'Last Quarter';
+    return 'Waning Crescent';
+  }
+
+  var ZODIAC = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
+    'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
+
+  function season(date, northern) {
+    if (northern === undefined) northern = true;
+    var l = solarTerms(date).longitude;
+    var north = l < 90 ? 'spring' : l < 180 ? 'summer' : l < 270 ? 'autumn' : 'winter';
+    if (northern) return north;
+    return { spring: 'autumn', summer: 'winter', autumn: 'spring', winter: 'summer' }[north];
+  }
+
+  function zodiac(date) {
+    var idx = Math.floor(solarTerms(date).longitude / 30) % 12;
+    return ZODIAC[(idx + 12) % 12];
+  }
+
+  root.Astro = {
+    REFRACTION_ELEVATION: REFRACTION_ELEVATION,
+    SYNODIC_MONTH: SYNODIC_MONTH,
+    NEW_MOON_JD: NEW_MOON_JD,
+    julianDay: julianDay,
+    solarTerms: solarTerms,
+    solarElevation: solarElevation,
+    sunrise: sunrise,
+    sunset: sunset,
+    daylightLength: daylightLength,
+    moonPhase: moonPhase,
+    moonAgeDays: moonAgeDays,
+    moonIllumination: moonIllumination,
+    moonPhaseName: moonPhaseName,
+    season: season,
+    zodiac: zodiac,
+    ZODIAC: ZODIAC
+  };
+})(typeof window !== 'undefined' ? window : this);
+</script>
+<!--/inlined:astro.js-->
+  <!--inlined:fetch-cache.js-->
+<script>
+/* FetchCache: tiny dependency-free helpers for the Ephemeris clocks (weather,
+ * astro, tide). Extracts the versioned-localStorage cache, geolocation, and
+ * timed-fetch patterns that were inlined in tide/index.html and cosmic/.
+ *
+ * Attaches a global `FetchCache`. Load with:
+ *   <script src="/clocks/shared/fetch-cache.js"><\/script>
+ *
+ * Everything is fail-safe: a thrown/blocked localStorage, a denied geolocation,
+ * or a network error never rejects the way that would blank a clock. Callers
+ * still get a usable value (cached, default, or null) and decide how to render.
+ */
+(function (root) {
+  'use strict';
+
+  // Bump this to invalidate every cached entry at once (schema/format change).
+  var VERSION = 'v1';
+
+  // Hard fallback when geolocation is unavailable or denied. Picked so a clock
+  // always has *some* honest place to show rather than NaN.
+  var DEFAULT_LOCATION = { lat: 40.7128, lon: -74.0060, label: 'New York', source: 'default' };
+
+  // Manual override: set localStorage['clocks.location'] to a JSON object like
+  //   {"lat":51.5,"lon":-0.12,"label":"London"}
+  // and every Ephemeris clock will use it instead of asking the browser.
+  var OVERRIDE_KEY = 'clocks.location';
+  var DEVICE_LOCATION_KEY = 'location.device';
+  var DEVICE_LOCATION_TTL = 6 * 60 * 60 * 1000;
+
+  function vkey(key) { return 'clocks.fc.' + VERSION + '.' + key; }
+
+  // cacheGet(key, ttlMs) -> stored value, or null if missing/expired/unreadable.
+  function cacheGet(key, ttlMs) {
+    try {
+      var raw = localStorage.getItem(vkey(key));
+      if (!raw) return null;
+      var rec = JSON.parse(raw);
+      if (!rec || typeof rec.time !== 'number') return null;
+      if (ttlMs != null && Date.now() - rec.time > ttlMs) return null;
+      return rec.data;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // cacheSet(key, value) -> true on success, false if storage is unavailable.
+  function cacheSet(key, value) {
+    try {
+      localStorage.setItem(vkey(key), JSON.stringify({ time: Date.now(), data: value }));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // cacheAge(key) -> ms since the entry was written, or null if absent.
+  function cacheAge(key) {
+    try {
+      var rec = JSON.parse(localStorage.getItem(vkey(key)) || 'null');
+      return rec && typeof rec.time === 'number' ? Date.now() - rec.time : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function normalizeLocation(o, fallbackLabel, source) {
+    if (!o || !isFinite(o.lat) || !isFinite(o.lon)) return null;
+    var lat = +o.lat, lon = +o.lon;
+    if (lat < -90 || lat > 90 || lon < -180 || lon > 180) return null;
+    var loc = { lat: lat, lon: lon, label: o.label || fallbackLabel, source: source };
+    if (isFinite(o.accuracy)) loc.accuracy = +o.accuracy;
+    if (o.cached) loc.cached = true;
+    return loc;
+  }
+
+  function readOverride() {
+    try {
+      var raw = localStorage.getItem(OVERRIDE_KEY);
+      if (!raw) return null;
+      return normalizeLocation(JSON.parse(raw), 'Manual', 'manual');
+    } catch (e) {}
+    return null;
+  }
+
+  function readDeviceCache(ttlMs) {
+    var cached = cacheGet(DEVICE_LOCATION_KEY, ttlMs);
+    if (!cached) return null;
+    cached.cached = true;
+    return normalizeLocation(cached, 'Your location', 'device');
+  }
+
+  function writeDeviceCache(loc) {
+    cacheSet(DEVICE_LOCATION_KEY, {
+      lat: loc.lat, lon: loc.lon, label: loc.label,
+      accuracy: loc.accuracy
+    });
+  }
+
+  // locate() -> Promise<{lat, lon, label, source}>. Never rejects.
+  // Resolution order: manual override > browser geolocation > cached browser
+  // geolocation > hard default.
+  // `source` is one of 'manual' | 'device' | 'default'.
+  function locate(opts) {
+    opts = opts || {};
+    var override = readOverride();
+    if (override) return Promise.resolve(override);
+    var cachedDevice = readDeviceCache(opts.cacheTtlMs || DEVICE_LOCATION_TTL);
+
+    return new Promise(function (resolve) {
+      if (!navigator.geolocation) return resolve(cachedDevice || clone(DEFAULT_LOCATION));
+      var done = false;
+      function fallback() { if (!done) { done = true; resolve(cachedDevice || clone(DEFAULT_LOCATION)); } }
+      navigator.geolocation.getCurrentPosition(
+        function (p) {
+          if (done) return;
+          done = true;
+          var loc = {
+            lat: p.coords.latitude, lon: p.coords.longitude,
+            label: 'Your location', source: 'device',
+            accuracy: p.coords.accuracy
+          };
+          writeDeviceCache(loc);
+          resolve(loc);
+        },
+        fallback,
+        {
+          enableHighAccuracy: false,
+          timeout: opts.timeoutMs || 7000,
+          maximumAge: opts.maximumAge != null ? opts.maximumAge : 3600000
+        }
+      );
+    });
+  }
+
+  function clone(o) {
+    var c = { lat: o.lat, lon: o.lon, label: o.label, source: o.source };
+    if (isFinite(o.accuracy)) c.accuracy = +o.accuracy;
+    if (o.cached) c.cached = true;
+    return c;
+  }
+
+  // fetchJSON(url, {timeoutMs}) -> Promise<json>. Aborts after ~10s by default
+  // and rejects on non-2xx so callers can fall back to cache.
+  function fetchJSON(url, opts) {
+    opts = opts || {};
+    var timeoutMs = opts.timeoutMs || 10000;
+    var ctrl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, timeoutMs) : null;
+    var init = { signal: ctrl ? ctrl.signal : undefined };
+    return fetch(url, init).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).finally(function () { if (timer) clearTimeout(timer); });
+  }
+
+  root.FetchCache = {
+    VERSION: VERSION,
+    DEFAULT_LOCATION: DEFAULT_LOCATION,
+    OVERRIDE_KEY: OVERRIDE_KEY,
+    DEVICE_LOCATION_KEY: DEVICE_LOCATION_KEY,
+    cacheGet: cacheGet,
+    cacheSet: cacheSet,
+    cacheAge: cacheAge,
+    locate: locate,
+    fetchJSON: fetchJSON
+  };
+})(typeof window !== 'undefined' ? window : this);
+
+</script>
+  <!--/inlined:fetch-cache.js-->
+  <script>
+  (function () {
+    'use strict';
+    var canvas = document.getElementById('scene');
+    var ctx = canvas.getContext('2d');
+    var readEl = document.getElementById('read');
+    var subEl = document.getElementById('sub');
+    var srEl = document.getElementById('sr');
+    var DEG = Math.PI / 180;
+    var W = 0, H = 0, dpr = 1, loc = null;
+
+    // Chaldean order and symbols.
+    var CHALDEAN = ['Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon'];
+    var SYM = { Saturn: '♄', Jupiter: '♃', Mars: '♂', Sun: '☉', Venus: '♀', Mercury: '☿', Moon: '☽' };
+    var COLOR = { Saturn: '#8a93a8', Jupiter: '#f5b441', Mars: '#ff6b5c', Sun: '#ffd06a',
+      Venus: '#7ce0c0', Mercury: '#aab6ff', Moon: '#cfe8ff' };
+    // Weekday planet ruling the first day-hour. Sun=Sunday(0)...
+    var WEEKDAY_RULER = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
+
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = window.innerWidth; H = window.innerHeight;
+      canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+      canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    // Build the 24 hour segments for the period containing `d`. We anchor on the
+    // sunrise that starts the current "planetary day": find today's sunrise; if
+    // now is before it, the planetary day started at yesterday's sunrise.
+    function buildHours(d) {
+      var todayRise = Astro.sunrise(d, loc.lat, loc.lon);
+      var todaySet = Astro.sunset(d, loc.lat, loc.lon);
+      if (!todayRise || !todaySet) return null;   // polar day/night
+
+      var dayDate, rise, set, nextRise;
+      if (d >= todayRise) {
+        dayDate = d;
+        rise = todayRise; set = todaySet;
+        nextRise = Astro.sunrise(new Date(d.getTime() + 86400000), loc.lat, loc.lon);
+      } else {
+        // belongs to yesterday's planetary day
+        var y = new Date(d.getTime() - 86400000);
+        dayDate = y;
+        rise = Astro.sunrise(y, loc.lat, loc.lon);
+        set = Astro.sunset(y, loc.lat, loc.lon);
+        nextRise = todayRise;
+      }
+      if (!rise || !set || !nextRise) return null;
+
+      var dayLen = (set - rise) / 12;
+      var nightLen = (nextRise - set) / 12;
+      var ruler = WEEKDAY_RULER[dayDate.getDay()];
+      var startIdx = CHALDEAN.indexOf(ruler);
+
+      var segs = [];
+      for (var i = 0; i < 24; i++) {
+        var planet = CHALDEAN[(startIdx + i) % 7];
+        var s, e;
+        if (i < 12) { s = rise.getTime() + i * dayLen; e = s + dayLen; }
+        else { s = set.getTime() + (i - 12) * nightLen; e = s + nightLen; }
+        segs.push({ planet: planet, start: s, end: e, day: i < 12 });
+      }
+      return { segs: segs, rise: rise, set: set, ruler: ruler };
+    }
+
+    function fmtDur(ms) {
+      var mins = Math.max(0, Math.round(ms / 60000));
+      var h = Math.floor(mins / 60), m = mins % 60;
+      return (h > 0 ? h + 'H ' : '') + m + 'M';
+    }
+
+    var lastMinute = -1;
+    function frame() {
+      var d = new Date();
+      ctx.fillStyle = '#040912'; ctx.fillRect(0, 0, W, H);
+
+      var cx = W / 2, cy = H * 0.40;
+      var R = Math.min(W, H) * 0.32, Rin = R * 0.52;
+
+      if (!loc) { readEl.textContent = 'LOCATING…'; subEl.textContent = ''; requestAnimationFrame(frame); return; }
+      var hrs = buildHours(d);
+      if (!hrs) { readEl.textContent = 'POLAR DAY/NIGHT'; subEl.textContent = loc.label ? loc.label.toUpperCase() : ''; requestAnimationFrame(frame); return; }
+
+      var now = d.getTime(), cur = -1;
+      for (var i = 0; i < 24; i++) if (now >= hrs.segs[i].start && now < hrs.segs[i].end) { cur = i; break; }
+
+      // 24-segment wheel, top = first hour, clockwise
+      var seg = (Math.PI * 2) / 24;
+      for (var k = 0; k < 24; k++) {
+        var a0 = -Math.PI / 2 + k * seg, a1 = a0 + seg;
+        var s = hrs.segs[k];
+        var active = (k === cur);
+        ctx.beginPath();
+        ctx.arc(cx, cy, R, a0, a1);
+        ctx.arc(cx, cy, Rin, a1, a0, true);
+        ctx.closePath();
+        var base = COLOR[s.planet];
+        if (active) {
+          ctx.fillStyle = base;
+          ctx.shadowColor = base; ctx.shadowBlur = 22;
+        } else {
+          ctx.fillStyle = s.day ? hexA(base, 0.20) : hexA(base, 0.10);
+          ctx.shadowBlur = 0;
+        }
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = 'rgba(4,9,18,0.8)'; ctx.lineWidth = 1.5; ctx.stroke();
+
+        // planet symbol
+        var mid = (a0 + a1) / 2, rr = (R + Rin) / 2;
+        ctx.fillStyle = active ? '#040912' : hexA(base, 0.85);
+        ctx.font = '700 ' + Math.max(11, R * 0.10) + 'px JetBrains Mono';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(SYM[s.planet], cx + Math.cos(mid) * rr, cy + Math.sin(mid) * rr);
+      }
+
+      // day/night dividing ring marker (between hour 11 and 12 = sunset)
+      ctx.strokeStyle = 'rgba(207,232,255,0.25)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.arc(cx, cy, R + 4, 0, Math.PI * 2); ctx.stroke();
+
+      // center symbol of current ruler
+      if (cur >= 0) {
+        var p = hrs.segs[cur].planet;
+        ctx.fillStyle = COLOR[p];
+        ctx.font = '700 ' + Math.max(30, Rin * 0.7) + 'px JetBrains Mono';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(SYM[p], cx, cy - Rin * 0.05);
+
+        var left = hrs.segs[cur].end - now;
+        readEl.textContent = 'HOUR OF ' + p.toUpperCase() + ' · ' + fmtDur(left) + ' LEFT';
+        subEl.textContent = (hrs.segs[cur].day ? 'DAY HOUR ' + (cur + 1) : 'NIGHT HOUR ' + (cur - 11)) +
+          ' · DAY OF ' + hrs.ruler.toUpperCase();
+
+        var mm = d.getMinutes();
+        if (mm !== lastMinute) {
+          lastMinute = mm;
+          srEl.textContent = 'Hour of ' + p + ', ' + fmtDur(left) + ' remaining.';
+        }
+      }
+      requestAnimationFrame(frame);
+    }
+
+    function hexA(hex, a) {
+      var n = parseInt(hex.slice(1), 16);
+      return 'rgba(' + ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + a + ')';
+    }
+
+    if (window.FetchCache) {
+      FetchCache.locate({ timeoutMs: 6000 }).then(function (l) { loc = l; }).catch(function () {});
+    }
+    window.addEventListener('resize', resize);
+    resize();
+    requestAnimationFrame(frame);
+  })();
+  </script>
+
+</body></html>

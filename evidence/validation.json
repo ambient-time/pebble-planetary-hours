@@ -1,0 +1,147 @@
+{
+  "version": "0.1.0",
+  "uuid": "70cc559e-2c8d-4b47-acec-46f1dce646c8",
+  "pbwSHA256": "0c51124e85d5b8c538fcc90fdde1b1f4fa70dbe68f0480b9e18714df30e8d68f",
+  "sourceZipSHA256": "eb0786f800fc00018878bf13a7a0722e7889fbea53ed72cdd50b016fb604847e",
+  "platforms": {
+    "basalt": {
+      "capturedAt": "2026-09-06T20:12:21.423455+00:00",
+      "dimensions": [
+        144,
+        168
+      ],
+      "nativeMessages": true,
+      "phoneCompanionIsolated": true,
+      "phoneSolarSchedule": true,
+      "invalidRejected": true,
+      "restartRetained": true,
+      "sevenRulers": true,
+      "naturalSunriseRollover": true,
+      "naturalSunsetRollover": true,
+      "naturalMidnightRollover": true,
+      "nativeFrameCount": 28,
+      "loggedRenderMS": {
+        "min": 4,
+        "max": 1035
+      },
+      "renderMeasurementClock": "Watch wall time; fixture clock changes can affect these samples.",
+      "minimumLoggedFreeHeapBytes": 57600
+    },
+    "diorite": {
+      "capturedAt": "2026-09-06T20:13:25.114315+00:00",
+      "dimensions": [
+        144,
+        168
+      ],
+      "nativeMessages": true,
+      "phoneCompanionIsolated": true,
+      "phoneSolarSchedule": true,
+      "invalidRejected": true,
+      "restartRetained": true,
+      "sevenRulers": true,
+      "naturalSunriseRollover": true,
+      "naturalSunsetRollover": true,
+      "naturalMidnightRollover": true,
+      "nativeFrameCount": 28,
+      "loggedRenderMS": {
+        "min": 0,
+        "max": 35
+      },
+      "renderMeasurementClock": "Watch wall time; fixture clock changes can affect these samples.",
+      "minimumLoggedFreeHeapBytes": 58144
+    },
+    "emery": {
+      "capturedAt": "2026-09-06T20:15:02.772269+00:00",
+      "dimensions": [
+        200,
+        228
+      ],
+      "nativeMessages": true,
+      "phoneCompanionIsolated": true,
+      "phoneSolarSchedule": true,
+      "invalidRejected": true,
+      "restartRetained": true,
+      "sevenRulers": true,
+      "naturalSunriseRollover": true,
+      "naturalSunsetRollover": true,
+      "naturalMidnightRollover": true,
+      "nativeFrameCount": 28,
+      "loggedRenderMS": {
+        "min": 1,
+        "max": 60
+      },
+      "renderMeasurementClock": "Watch wall time; fixture clock changes can affect these samples.",
+      "minimumLoggedFreeHeapBytes": 123136
+    },
+    "flint": {
+      "capturedAt": "2026-09-06T20:16:37.457871+00:00",
+      "dimensions": [
+        144,
+        168
+      ],
+      "nativeMessages": true,
+      "phoneCompanionIsolated": true,
+      "phoneSolarSchedule": true,
+      "invalidRejected": true,
+      "restartRetained": true,
+      "sevenRulers": true,
+      "naturalSunriseRollover": true,
+      "naturalSunsetRollover": true,
+      "naturalMidnightRollover": true,
+      "nativeFrameCount": 28,
+      "loggedRenderMS": {
+        "min": 2,
+        "max": 14
+      },
+      "renderMeasurementClock": "Watch wall time; fixture clock changes can affect these samples.",
+      "minimumLoggedFreeHeapBytes": 58144
+    },
+    "chalk": {
+      "capturedAt": "2026-09-06T20:11:04.897195+00:00",
+      "dimensions": [
+        180,
+        180
+      ],
+      "nativeMessages": true,
+      "phoneCompanionIsolated": true,
+      "phoneSolarSchedule": true,
+      "invalidRejected": true,
+      "restartRetained": true,
+      "sevenRulers": true,
+      "naturalSunriseRollover": true,
+      "naturalSunsetRollover": true,
+      "naturalMidnightRollover": true,
+      "nativeFrameCount": 28,
+      "loggedRenderMS": {
+        "min": 4,
+        "max": 32
+      },
+      "renderMeasurementClock": "Watch wall time; fixture clock changes can affect these samples.",
+      "minimumLoggedFreeHeapBytes": 57480
+    },
+    "gabbro": {
+      "capturedAt": "2026-09-06T20:17:41.166808+00:00",
+      "dimensions": [
+        260,
+        260
+      ],
+      "nativeMessages": true,
+      "phoneCompanionIsolated": true,
+      "phoneSolarSchedule": true,
+      "invalidRejected": true,
+      "restartRetained": true,
+      "sevenRulers": true,
+      "naturalSunriseRollover": true,
+      "naturalSunsetRollover": true,
+      "naturalMidnightRollover": true,
+      "nativeFrameCount": 28,
+      "loggedRenderMS": {
+        "min": 1,
+        "max": 1021
+      },
+      "renderMeasurementClock": "Watch wall time; fixture clock changes can affect these samples.",
+      "minimumLoggedFreeHeapBytes": 123016
+    }
+  },
+  "limits": "Local emulator-tested review candidate. Native PNGs require visual inspection. Synthetic phone-message fixtures; real phone location/permission and physical-watch power/readability remain untested. Not CloudPebble import proof or a store release."
+}
