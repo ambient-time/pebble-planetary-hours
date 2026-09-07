@@ -1,0 +1,183 @@
+mkdir -p build
+cc -std=c11 -Wall -Wextra -Werror -fsanitize=address,undefined -fno-omit-frame-pointer test/math.c -o build/math-test
+build/math-test
+Planetary native math: boundary sweep, seven rulers, wire rejection and overflow checks passed
+node test/solar.test.js
+Planetary solar: 907 source and schedule checks passed; DST, date line, leap day, polar and invalid-input checks passed
+node test/phone.test.js
+Planetary phone: 20 mocked permission, cache, travel, transport and retry scenarios passed
+pebble build
+Setting top to                           : /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/planetary-hours-source-check-1vtjl57h/planetary-hours 
+Setting out to                           : /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/planetary-hours-source-check-1vtjl57h/planetary-hours/build 
+Checking for program 'webpack'           : /Users/luke/Library/Application Support/Pebble SDK/SDKs/current/node_modules/.bin/webpack 
+Found Pebble SDK for gabbro in:          : /Users/luke/Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/gabbro 
+Checking for program 'gcc, cc'           : arm-none-eabi-gcc 
+Checking for program 'ar'                : arm-none-eabi-ar 
+Found Pebble SDK for flint in:           : /Users/luke/Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/flint 
+Checking for program 'gcc, cc'           : arm-none-eabi-gcc 
+Checking for program 'ar'                : arm-none-eabi-ar 
+Found Pebble SDK for emery in:           : /Users/luke/Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/emery 
+Checking for program 'gcc, cc'           : arm-none-eabi-gcc 
+Checking for program 'ar'                : arm-none-eabi-ar 
+Found Pebble SDK for diorite in:         : /Users/luke/Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/diorite 
+Checking for program 'gcc, cc'           : arm-none-eabi-gcc 
+Checking for program 'ar'                : arm-none-eabi-ar 
+Found Pebble SDK for chalk in:           : /Users/luke/Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/chalk 
+Checking for program 'gcc, cc'           : arm-none-eabi-gcc 
+Checking for program 'ar'                : arm-none-eabi-ar 
+Found Pebble SDK for basalt in:          : /Users/luke/Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/basalt 
+Checking for program 'gcc, cc'           : arm-none-eabi-gcc 
+Checking for program 'ar'                : arm-none-eabi-ar 
+'configure' finished successfully (0.406s)
+Waf: Entering directory `/private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/planetary-hours-source-check-1vtjl57h/planetary-hours/build'
+[1/3] Creating message_key_json:  -> build/js/message_keys.json
+[2/3] Creating message_key_definitions:  -> build/src/message_keys.auto.c
+[3/3] Creating message_key_header:  -> build/include/message_keys.auto.h
+[ 4/17] Compiling gabbro | reso: resources/images/menu-icon.png -> build/gabbro/resources/images/menu-icon.png.IMAGE_MENU_ICON.reso
+[ 5/17] Creating gabbro | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/planetary-hours-source-check-1vtjl57h/planetary-hours/build/gabbro/appinfo.auto.c:  -> build/gabbro/appinfo.auto.c
+[ 6/17] Compiling gabbro | subst: /Users/luke/Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/common/pebble_app.ld.template -> build/gabbro/pebble_app.ld.auto
+[ 7/17] Compiling gabbro | c: build/src/message_keys.auto.c -> build/src/message_keys.auto.c.44.o
+[ 8/17] Creating gabbro | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/planetary-hours-source-check-1vtjl57h/planetary-hours/build/appinfo.json:  -> build/appinfo.json
+[ 9/17] Compiling gabbro | resource_ball: build/gabbro/resources/images/menu-icon.png.IMAGE_MENU_ICON.reso -> build/gabbro/system_resources.resball
+[10/17] Compiling gabbro | generate_resource_id_definitions: build/gabbro/system_resources.resball -> build/gabbro/src/resource_ids.auto.c
+[11/17] Compiling gabbro | generate_pbpack: build/gabbro/system_resources.resball -> build/gabbro/app_resources.pbpack
+[12/17] Compiling gabbro | generate_resource_id_header: build/gabbro/system_resources.resball -> build/gabbro/src/resource_ids.auto.h
+[13/17] Compiling gabbro | c: src/c/main.c -> build/src/c/main.c.44.o
+[14/17] Compiling gabbro | c: build/gabbro/appinfo.auto.c -> build/gabbro/appinfo.auto.c.44.o
+[15/17] Compiling gabbro | c: build/gabbro/src/resource_ids.auto.c -> build/gabbro/src/resource_ids.auto.c.44.o
+[16/17] Linking gabbro | cprogram: build/src/c/main.c.44.o build/gabbro/appinfo.auto.c.44.o build/gabbro/src/resource_ids.auto.c.44.o build/src/message_keys.auto.c.44.o -> build/gabbro/pebble-app.elf
+/Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/toolchain/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld: warning: /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/planetary-hours-source-check-1vtjl57h/planetary-hours/build/gabbro/pebble-app.elf has a LOAD segment with RWX permissions
+
+[17/17] Processing gabbro | memory_usage_report: build/gabbro/pebble-app.elf build/gabbro/app_resources.pbpack
+-------------------------------------------------------
+GABBRO APP MEMORY USAGE
+Total size of resources:        4195 bytes / 256.0KB
+Total footprint in RAM:         7160 bytes / 128.0KB
+Free RAM available (heap):      123912 bytes
+------------------------------------------------------- 
+[18/31] Compiling flint | reso: resources/images/menu-icon.png -> build/flint/resources/images/menu-icon.png.IMAGE_MENU_ICON.reso
+[19/31] Creating flint | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/planetary-hours-source-check-1vtjl57h/planetary-hours/build/flint/appinfo.auto.c:  -> build/flint/appinfo.auto.c
+[20/31] Compiling flint | subst: /Users/luke/Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/common/pebble_app.ld.template -> build/flint/pebble_app.ld.auto
+[21/31] Compiling flint | c: build/src/message_keys.auto.c -> build/src/message_keys.auto.c.45.o
+[23/31] Compiling flint | resource_ball: build/flint/resources/images/menu-icon.png.IMAGE_MENU_ICON.reso -> build/flint/system_resources.resball
+[24/31] Compiling flint | generate_resource_id_definitions: build/flint/system_resources.resball -> build/flint/src/resource_ids.auto.c
+[25/31] Compiling flint | generate_pbpack: build/flint/system_resources.resball -> build/flint/app_resources.pbpack
+[26/31] Compiling flint | generate_resource_id_header: build/flint/system_resources.resball -> build/flint/src/resource_ids.auto.h
+[27/31] Compiling flint | c: build/flint/src/resource_ids.auto.c -> build/flint/src/resource_ids.auto.c.45.o
+[28/31] Compiling flint | c: src/c/main.c -> build/src/c/main.c.45.o
+[29/31] Compiling flint | c: build/flint/appinfo.auto.c -> build/flint/appinfo.auto.c.45.o
+[30/31] Linking flint | cprogram: build/src/c/main.c.45.o build/flint/appinfo.auto.c.45.o build/flint/src/resource_ids.auto.c.45.o build/src/message_keys.auto.c.45.o -> build/flint/pebble-app.elf
+/Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/toolchain/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld: warning: /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/planetary-hours-source-check-1vtjl57h/planetary-hours/build/flint/pebble-app.elf has a LOAD segment with RWX permissions
+
+[31/31] Processing flint | memory_usage_report: build/flint/pebble-app.elf build/flint/app_resources.pbpack
+-------------------------------------------------------
+FLINT APP MEMORY USAGE
+Total size of resources:        4195 bytes / 256.0KB
+Total footprint in RAM:         6535 bytes / 64.0KB
+Free RAM available (heap):      59001 bytes
+------------------------------------------------------- 
+[32/45] Compiling emery | reso: resources/images/menu-icon.png -> build/emery/resources/images/menu-icon.png.IMAGE_MENU_ICON.reso
+[33/45] Creating emery | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/planetary-hours-source-check-1vtjl57h/planetary-hours/build/emery/appinfo.auto.c:  -> build/emery/appinfo.auto.c
+[34/45] Compiling emery | subst: /Users/luke/Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/common/pebble_app.ld.template -> build/emery/pebble_app.ld.auto
+[35/45] Compiling emery | c: build/src/message_keys.auto.c -> build/src/message_keys.auto.c.46.o
+[37/45] Compiling emery | resource_ball: build/emery/resources/images/menu-icon.png.IMAGE_MENU_ICON.reso -> build/emery/system_resources.resball
+[38/45] Compiling emery | generate_resource_id_definitions: build/emery/system_resources.resball -> build/emery/src/resource_ids.auto.c
+[39/45] Compiling emery | generate_pbpack: build/emery/system_resources.resball -> build/emery/app_resources.pbpack
+[40/45] Compiling emery | generate_resource_id_header: build/emery/system_resources.resball -> build/emery/src/resource_ids.auto.h
+[41/45] Compiling emery | c: build/emery/src/resource_ids.auto.c -> build/emery/src/resource_ids.auto.c.46.o
+[42/45] Compiling emery | c: src/c/main.c -> build/src/c/main.c.46.o
+[43/45] Compiling emery | c: build/emery/appinfo.auto.c -> build/emery/appinfo.auto.c.46.o
+[44/45] Linking emery | cprogram: build/src/c/main.c.46.o build/emery/appinfo.auto.c.46.o build/emery/src/resource_ids.auto.c.46.o build/src/message_keys.auto.c.46.o -> build/emery/pebble-app.elf
+/Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/toolchain/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld: warning: /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/planetary-hours-source-check-1vtjl57h/planetary-hours/build/emery/pebble-app.elf has a LOAD segment with RWX permissions
+
+[45/45] Processing emery | memory_usage_report: build/emery/pebble-app.elf build/emery/app_resources.pbpack
+-------------------------------------------------------
+EMERY APP MEMORY USAGE
+Total size of resources:        4195 bytes / 256.0KB
+Total footprint in RAM:         7076 bytes / 128.0KB
+Free RAM available (heap):      123996 bytes
+------------------------------------------------------- 
+[46/59] Compiling diorite | reso: resources/images/menu-icon.png -> build/diorite/resources/images/menu-icon.png.IMAGE_MENU_ICON.reso
+[47/59] Creating diorite | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/planetary-hours-source-check-1vtjl57h/planetary-hours/build/diorite/appinfo.auto.c:  -> build/diorite/appinfo.auto.c
+[48/59] Compiling diorite | subst: /Users/luke/Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/common/pebble_app.ld.template -> build/diorite/pebble_app.ld.auto
+[49/59] Compiling diorite | c: build/src/message_keys.auto.c -> build/src/message_keys.auto.c.47.o
+[51/59] Compiling diorite | resource_ball: build/diorite/resources/images/menu-icon.png.IMAGE_MENU_ICON.reso -> build/diorite/system_resources.resball
+[52/59] Compiling diorite | generate_resource_id_definitions: build/diorite/system_resources.resball -> build/diorite/src/resource_ids.auto.c
+[53/59] Compiling diorite | generate_pbpack: build/diorite/system_resources.resball -> build/diorite/app_resources.pbpack
+[54/59] Compiling diorite | generate_resource_id_header: build/diorite/system_resources.resball -> build/diorite/src/resource_ids.auto.h
+[55/59] Compiling diorite | c: build/diorite/src/resource_ids.auto.c -> build/diorite/src/resource_ids.auto.c.47.o
+[56/59] Compiling diorite | c: src/c/main.c -> build/src/c/main.c.47.o
+[57/59] Compiling diorite | c: build/diorite/appinfo.auto.c -> build/diorite/appinfo.auto.c.47.o
+[58/59] Linking diorite | cprogram: build/src/c/main.c.47.o build/diorite/appinfo.auto.c.47.o build/diorite/src/resource_ids.auto.c.47.o build/src/message_keys.auto.c.47.o -> build/diorite/pebble-app.elf
+/Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/toolchain/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld: warning: /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/planetary-hours-source-check-1vtjl57h/planetary-hours/build/diorite/pebble-app.elf has a LOAD segment with RWX permissions
+
+[59/59] Processing diorite | memory_usage_report: build/diorite/pebble-app.elf build/diorite/app_resources.pbpack
+-------------------------------------------------------
+DIORITE APP MEMORY USAGE
+Total size of resources:        4195 bytes / 256.0KB
+Total footprint in RAM:         6535 bytes / 64.0KB
+Free RAM available (heap):      59001 bytes
+------------------------------------------------------- 
+[60/73] Compiling chalk | reso: resources/images/menu-icon.png -> build/chalk/resources/images/menu-icon.png.IMAGE_MENU_ICON.reso
+[61/73] Creating chalk | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/planetary-hours-source-check-1vtjl57h/planetary-hours/build/chalk/appinfo.auto.c:  -> build/chalk/appinfo.auto.c
+[62/73] Compiling chalk | subst: /Users/luke/Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/common/pebble_app.ld.template -> build/chalk/pebble_app.ld.auto
+[63/73] Compiling chalk | c: build/src/message_keys.auto.c -> build/src/message_keys.auto.c.48.o
+[65/73] Compiling chalk | resource_ball: build/chalk/resources/images/menu-icon.png.IMAGE_MENU_ICON.reso -> build/chalk/system_resources.resball
+[66/73] Compiling chalk | generate_resource_id_definitions: build/chalk/system_resources.resball -> build/chalk/src/resource_ids.auto.c
+[67/73] Compiling chalk | generate_pbpack: build/chalk/system_resources.resball -> build/chalk/app_resources.pbpack
+[68/73] Compiling chalk | generate_resource_id_header: build/chalk/system_resources.resball -> build/chalk/src/resource_ids.auto.h
+[69/73] Compiling chalk | c: build/chalk/src/resource_ids.auto.c -> build/chalk/src/resource_ids.auto.c.48.o
+[70/73] Compiling chalk | c: src/c/main.c -> build/src/c/main.c.48.o
+[71/73] Compiling chalk | c: build/chalk/appinfo.auto.c -> build/chalk/appinfo.auto.c.48.o
+[72/73] Linking chalk | cprogram: build/src/c/main.c.48.o build/chalk/appinfo.auto.c.48.o build/chalk/src/resource_ids.auto.c.48.o build/src/message_keys.auto.c.48.o -> build/chalk/pebble-app.elf
+/Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/toolchain/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld: warning: /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/planetary-hours-source-check-1vtjl57h/planetary-hours/build/chalk/pebble-app.elf has a LOAD segment with RWX permissions
+
+[73/73] Processing chalk | memory_usage_report: build/chalk/pebble-app.elf build/chalk/app_resources.pbpack
+-------------------------------------------------------
+CHALK APP MEMORY USAGE
+Total size of resources:        4195 bytes / 256.0KB
+Total footprint in RAM:         7160 bytes / 64.0KB
+Free RAM available (heap):      58376 bytes
+------------------------------------------------------- 
+[74/87] Compiling basalt | reso: resources/images/menu-icon.png -> build/basalt/resources/images/menu-icon.png.IMAGE_MENU_ICON.reso
+[75/87] Creating basalt | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/planetary-hours-source-check-1vtjl57h/planetary-hours/build/basalt/appinfo.auto.c:  -> build/basalt/appinfo.auto.c
+[76/87] Compiling basalt | subst: /Users/luke/Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/common/pebble_app.ld.template -> build/basalt/pebble_app.ld.auto
+[77/87] Compiling basalt | c: build/src/message_keys.auto.c -> build/src/message_keys.auto.c.49.o
+[79/87] Compiling basalt | resource_ball: build/basalt/resources/images/menu-icon.png.IMAGE_MENU_ICON.reso -> build/basalt/system_resources.resball
+[80/87] Compiling basalt | generate_resource_id_definitions: build/basalt/system_resources.resball -> build/basalt/src/resource_ids.auto.c
+[81/87] Compiling basalt | generate_pbpack: build/basalt/system_resources.resball -> build/basalt/app_resources.pbpack
+[82/87] Compiling basalt | generate_resource_id_header: build/basalt/system_resources.resball -> build/basalt/src/resource_ids.auto.h
+[83/87] Compiling basalt | c: build/basalt/src/resource_ids.auto.c -> build/basalt/src/resource_ids.auto.c.49.o
+[84/87] Compiling basalt | c: src/c/main.c -> build/src/c/main.c.49.o
+[85/87] Compiling basalt | c: build/basalt/appinfo.auto.c -> build/basalt/appinfo.auto.c.49.o
+[86/87] Linking basalt | cprogram: build/src/c/main.c.49.o build/basalt/appinfo.auto.c.49.o build/basalt/src/resource_ids.auto.c.49.o build/src/message_keys.auto.c.49.o -> build/basalt/pebble-app.elf
+/Users/luke/Library/Application Support/Pebble SDK/SDKs/4.33.1/toolchain/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/14.2.1/../../../../arm-none-eabi/bin/ld: warning: /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/planetary-hours-source-check-1vtjl57h/planetary-hours/build/basalt/pebble-app.elf has a LOAD segment with RWX permissions
+
+[87/87] Processing basalt | memory_usage_report: build/basalt/pebble-app.elf build/basalt/app_resources.pbpack
+-------------------------------------------------------
+BASALT APP MEMORY USAGE
+Total size of resources:        4195 bytes / 256.0KB
+Total footprint in RAM:         7076 bytes / 64.0KB
+Free RAM available (heap):      58460 bytes
+------------------------------------------------------- 
+[ 88/101] Compiling gabbro | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/planetary-hours-source-check-1vtjl57h/planetary-hours/build/gabbro/pebble-app.raw.bin: build/gabbro/pebble-app.elf -> build/gabbro/pebble-app.raw.bin
+[ 89/101] Compiling flint | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/planetary-hours-source-check-1vtjl57h/planetary-hours/build/flint/pebble-app.raw.bin: build/flint/pebble-app.elf -> build/flint/pebble-app.raw.bin
+[ 90/101] Compiling emery | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/planetary-hours-source-check-1vtjl57h/planetary-hours/build/emery/pebble-app.raw.bin: build/emery/pebble-app.elf -> build/emery/pebble-app.raw.bin
+[ 91/101] Compiling diorite | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/planetary-hours-source-check-1vtjl57h/planetary-hours/build/diorite/pebble-app.raw.bin: build/diorite/pebble-app.elf -> build/diorite/pebble-app.raw.bin
+[ 92/101] Compiling chalk | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/planetary-hours-source-check-1vtjl57h/planetary-hours/build/chalk/pebble-app.raw.bin: build/chalk/pebble-app.elf -> build/chalk/pebble-app.raw.bin
+[ 93/101] Compiling basalt | /private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/planetary-hours-source-check-1vtjl57h/planetary-hours/build/basalt/pebble-app.raw.bin: build/basalt/pebble-app.elf -> build/basalt/pebble-app.raw.bin
+[ 94/101] Processing merge_js: src/pkjs/index.js src/pkjs/phone.js src/pkjs/solar.js -> build/pebble-js-app.js build/pebble-js-app.js.map
+[ 95/101] Processing flint | inject-metadata: build/flint/pebble-app.raw.bin build/flint/pebble-app.elf build/flint/app_resources.pbpack -> build/flint/pebble-app.bin
+[ 96/101] Processing gabbro | inject-metadata: build/gabbro/pebble-app.raw.bin build/gabbro/pebble-app.elf build/gabbro/app_resources.pbpack -> build/gabbro/pebble-app.bin
+[ 97/101] Processing diorite | inject-metadata: build/diorite/pebble-app.raw.bin build/diorite/pebble-app.elf build/diorite/app_resources.pbpack -> build/diorite/pebble-app.bin
+[ 98/101] Processing emery | inject-metadata: build/emery/pebble-app.raw.bin build/emery/pebble-app.elf build/emery/app_resources.pbpack -> build/emery/pebble-app.bin
+[ 99/101] Processing chalk | inject-metadata: build/chalk/pebble-app.raw.bin build/chalk/pebble-app.elf build/chalk/app_resources.pbpack -> build/chalk/pebble-app.bin
+[100/101] Processing basalt | inject-metadata: build/basalt/pebble-app.raw.bin build/basalt/pebble-app.elf build/basalt/app_resources.pbpack -> build/basalt/pebble-app.bin
+[101/101] Creating app_bundle:  -> build/planetary-hours.pbw
+Waf: Leaving directory `/private/var/folders/kl/6kmp_kld6hx_70h5kqwb97k00000gn/T/planetary-hours-source-check-1vtjl57h/planetary-hours/build'
+'build' finished successfully (1.559s)
+
+[1m[33mA new pebble-tool is available: v5.0.40 (current: v5.0.39)[0m
+[33m  Update with: uv tool upgrade pebble-tool[0m
+node test/bundle.test.js
+Planetary built companion: ready/request wiring, denial, permission recovery and saved fix passed

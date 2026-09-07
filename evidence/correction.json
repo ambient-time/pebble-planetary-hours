@@ -1,0 +1,187 @@
+{
+  "version": "0.1.1",
+  "pbwSHA256": "a964a040ffa8b0b42b6212dc2f4113ddaefa3e1621ac7b280d02b2a4f958b20f",
+  "previousRelease": "planetary-hours-0.1.0.pbw",
+  "previousPBWSHA256": "0c51124e85d5b8c538fcc90fdde1b1f4fa70dbe68f0480b9e18714df30e8d68f",
+  "uuid": "70cc559e-2c8d-4b47-acec-46f1dce646c8",
+  "removedVisuals": [
+    "ordinary civil-time readout; planetary countdown and location status retained"
+  ],
+  "resourcePayloads": {
+    "basalt": {
+      "identicalToPreviousRelease": true,
+      "sha256": "e7a674d3bde6cda016a297e0598e999f448b8de8fb0fa686044ee2c062d7057c"
+    },
+    "diorite": {
+      "identicalToPreviousRelease": true,
+      "sha256": "e7a674d3bde6cda016a297e0598e999f448b8de8fb0fa686044ee2c062d7057c"
+    },
+    "emery": {
+      "identicalToPreviousRelease": true,
+      "sha256": "e7a674d3bde6cda016a297e0598e999f448b8de8fb0fa686044ee2c062d7057c"
+    },
+    "flint": {
+      "identicalToPreviousRelease": true,
+      "sha256": "e7a674d3bde6cda016a297e0598e999f448b8de8fb0fa686044ee2c062d7057c"
+    },
+    "chalk": {
+      "identicalToPreviousRelease": true,
+      "sha256": "e7a674d3bde6cda016a297e0598e999f448b8de8fb0fa686044ee2c062d7057c"
+    },
+    "gabbro": {
+      "identicalToPreviousRelease": true,
+      "sha256": "e7a674d3bde6cda016a297e0598e999f448b8de8fb0fa686044ee2c062d7057c"
+    }
+  },
+  "pinnedReferences": {
+    "reference/README.md": "f0a46811c155cb7df09662a68211f9c2e73427550b096666ef5c51212b4256f7",
+    "reference/source.html": "80c6dff4a2799a42e53ada54cb5de60cc29ed17368aa970c3ab2b4c5c368ea51"
+  },
+  "checkedAt": "2026-09-07T05:50:43.171688+00:00",
+  "scope": "Native resource payload comparison with the prior release. Host tests verify the retained time mappings. Current native captures and independent source rebuild are recorded separately.",
+  "phoneCompanion": {
+    "identicalToPreviousRelease": true,
+    "sha256": "c9fd629a56afe0c75fea2f32d3298574be9047a6dafdba4cbfa98fb58fbe340f"
+  },
+  "nativeVisualReview": {
+    "frames": [
+      {
+        "file": "basalt-hero.png",
+        "sha256": "c58ce16bb2122122eca686683cd079a8ac9163c81cab525813080c0e1f011a83"
+      },
+      {
+        "file": "basalt-ruler-0.png",
+        "sha256": "31f559b9e3e48fe65dd59ed158b82a0b2851ed7dec14fff3d4d727575893deec"
+      },
+      {
+        "file": "basalt-ruler-4.png",
+        "sha256": "981b1ba8ba692cfe28bde1f10c2c86d3248992a8f1fa40ab7a42f9cb9884a785"
+      },
+      {
+        "file": "basalt-phone-solar.png",
+        "sha256": "691a4e1a8c87d471fc30100dd8aacfc5ba5f9ce0a7f381b9b6d86a9915da53e3"
+      },
+      {
+        "file": "basalt-very-old-fix.png",
+        "sha256": "19f5b4dbefa184fcf0b6701ac8c884b7ea8cd29d8220f3512912d450cced43ac"
+      },
+      {
+        "file": "chalk-hero.png",
+        "sha256": "8f8ac11c3fa5868f608564c8eae7d89f3d88c3648dbf33b775031d00dbc177f5"
+      },
+      {
+        "file": "chalk-ruler-0.png",
+        "sha256": "bbce53cbf157701383670d28e622232e11c29c8db80adb19b2a746d76b2f2bc5"
+      },
+      {
+        "file": "chalk-ruler-4.png",
+        "sha256": "7e185b16ec786bb0a7b604e482e2ad87c4c30784a28f6fb26ab4772a5b25aef5"
+      },
+      {
+        "file": "chalk-phone-solar.png",
+        "sha256": "9160cec85d9645b8f09fa95b785ac6a17028f0a94d2d215b27a2e8a613acf040"
+      },
+      {
+        "file": "chalk-very-old-fix.png",
+        "sha256": "fe2a163ed4045f6bb97c9bf6511512fb62f08fef0d933621c7528c3d9e30afd1"
+      },
+      {
+        "file": "diorite-hero.png",
+        "sha256": "4ca1c0438dc3a3d2a1a9f7528e261e486512c262180c475495a210f5c5b6a82e"
+      },
+      {
+        "file": "diorite-ruler-0.png",
+        "sha256": "379d79081ee66980c2037e710ea50a32aa705c3ea92667d650093434bbfe863d"
+      },
+      {
+        "file": "diorite-ruler-4.png",
+        "sha256": "c8b2fe236f9f58b39b8bc19aed9a850a8d95886e154a5aae76ad7eba85d875b0"
+      },
+      {
+        "file": "diorite-phone-solar.png",
+        "sha256": "04e34b570a89c35d88a68176e68d17f92088c859125d6ac24a64abb9fea281e3"
+      },
+      {
+        "file": "diorite-very-old-fix.png",
+        "sha256": "0dbf7eea45bdef6f15a93688b936048d7a65cafa55e47e9880b8f30774042803"
+      },
+      {
+        "file": "emery-hero.png",
+        "sha256": "d2a46e3893bb930fffd1c57955baddaf6ffdd31d76b7ea3f4e83908fd244b1df"
+      },
+      {
+        "file": "emery-ruler-0.png",
+        "sha256": "a7834513c25ff8cbf0b4b23f038ecdd196ae6898e284e111235f023833f799d9"
+      },
+      {
+        "file": "emery-ruler-4.png",
+        "sha256": "643d2a2b435a67e0de99f8d016bdf14dd9b80578eb243186c21ca74e03538deb"
+      },
+      {
+        "file": "emery-phone-solar.png",
+        "sha256": "f5a8a75487f23c598a041d7ee0fd42ee2f7c386b11acdf0e015395448535e5b3"
+      },
+      {
+        "file": "emery-very-old-fix.png",
+        "sha256": "8ae1f3d61f8b8fcdeac5b5125d04ed1a9a6ac7b02233d6354317dbf1d27e1401"
+      },
+      {
+        "file": "flint-hero.png",
+        "sha256": "f5669ed50953302c9d4129be26cdb44285ec503b947ad5ae3b4fc0b9fad06a10"
+      },
+      {
+        "file": "flint-ruler-0.png",
+        "sha256": "bb52b4cc90d5d6097ac061b3a93b4184f04cf67aa1ea09441e67a1bacda43c84"
+      },
+      {
+        "file": "flint-ruler-4.png",
+        "sha256": "c268f1fda97d309d66acd9ade98664ca1851ac783b64c7b06762396938f6b4ec"
+      },
+      {
+        "file": "flint-phone-solar.png",
+        "sha256": "f459d727a827930612616c0053ab3954d17c48247b6974aba0c186ee7a1d1a60"
+      },
+      {
+        "file": "flint-very-old-fix.png",
+        "sha256": "78c3d17592a156b095f493acf273d857e4860f7aac1fa9286bb41a862436598c"
+      },
+      {
+        "file": "gabbro-hero.png",
+        "sha256": "b6463cd50289ffde0fd7fe0b6ec0424ec2c4c7ab27ff33e13317a7c088a1ab2b"
+      },
+      {
+        "file": "gabbro-ruler-0.png",
+        "sha256": "8a0cb6bc8cf30052dfc09cda78cc530182648790fa635644e88184c3ded3d7ad"
+      },
+      {
+        "file": "gabbro-ruler-4.png",
+        "sha256": "c4738b6134a0812eb5141b03ca5a3e9be0fe470eff38796ecc04360c634084f8"
+      },
+      {
+        "file": "gabbro-phone-solar.png",
+        "sha256": "2a9f4af02dba14876ea2ebed33f71abeb781cf3d30eabee0a1469e74932e28f2"
+      },
+      {
+        "file": "gabbro-very-old-fix.png",
+        "sha256": "974ce2c80cd351328dee3f05c86f0549b24faf54c1b23f00cf9e63b1cf4e58cf"
+      },
+      {
+        "file": "chalk-waiting.png",
+        "sha256": "90743653454ad39af250cfba58d37ab2b578a321c5a0c5d1bb85565760c1b1d3"
+      },
+      {
+        "file": "chalk-polar-day.png",
+        "sha256": "fd4901854ee9ac699adb6780ee2956e95f2a67e873e85e7ac25d154a9306edf1"
+      },
+      {
+        "file": "gabbro-polar-night.png",
+        "sha256": "be4e75e8ec55fae581a19dcb98d28964c562c974b063474b137d1836854bce2e"
+      },
+      {
+        "file": "gabbro-solar-gap.png",
+        "sha256": "a0f49ba66528038cc87208a6ae2b2dd3ecc206bf1cc46e88b09d631f2a282399"
+      }
+    ],
+    "result": "The planetary wheel, current ruler, minutes remaining, and phone-location status retain their geometry. Ordinary civil time is absent. Waiting, polar day, polar night, and unavailable-cycle screens keep their status labels without an auxiliary clock."
+  }
+}

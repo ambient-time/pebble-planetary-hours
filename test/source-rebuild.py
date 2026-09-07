@@ -36,7 +36,8 @@ def main():
     release = ROOT / 'release'
     archive = release / f'planetary-hours-{metadata["version"]}-source.zip'
     original = release / f'planetary-hours-{metadata["version"]}.pbw'
-    (release / 'source-rebuild.json').write_text(json.dumps({'sourceZIPSHA256': digest(archive.read_bytes()), 'result': 'incomplete'}, indent=2) + '\n')
+    proof_name = f'planetary-hours-{metadata["version"]}-source-rebuild'
+    (release / f'{proof_name}.json').write_text(json.dumps({'sourceZIPSHA256': digest(archive.read_bytes()), 'result': 'incomplete'}, indent=2) + '\n')
     with tempfile.TemporaryDirectory(prefix='planetary-hours-source-check-') as temp:
         root = Path(temp) / 'planetary-hours'
         root.mkdir()
@@ -47,8 +48,8 @@ def main():
             z.extractall(root)
         run = subprocess.run(['make', 'build'], cwd=root, stdout=subprocess.PIPE,
                              stderr=subprocess.STDOUT, text=True)
-        (release / 'source-rebuild.log').write_text(run.stdout)
-        assert run.returncode == 0, 'Independent source build failed; inspect release/source-rebuild.log'
+        (release / f'{proof_name}.log').write_text(run.stdout)
+        assert run.returncode == 0, f'Independent source build failed; inspect release/{proof_name}.log'
         with zipfile.ZipFile(original) as a, zipfile.ZipFile(root / 'build/planetary-hours.pbw') as b:
             assert a.testzip() is None and b.testzip() is None
             assert json.loads(a.read('appinfo.json')) == json.loads(b.read('appinfo.json'))
@@ -75,7 +76,7 @@ def main():
                   'hostChecks': 'native sanitizer boundary checks, 907 solar/source checks, 20 phone scenarios and built-companion event checks',
                   'platforms': comparisons, 'phoneCompanionIdentical': True,
                   'limits': 'Independent local SDK build from root-level ZIP. CloudPebble import still needs its own check.'}
-        (release / 'source-rebuild.json').write_text(json.dumps(report, indent=2) + '\n')
+        (release / f'{proof_name}.json').write_text(json.dumps(report, indent=2) + '\n')
         print(json.dumps(report, indent=2))
 
 

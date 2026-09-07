@@ -162,15 +162,12 @@ static void draw(Layer *layer,GContext *ctx) {
   graphics_context_set_stroke_color(ctx,PBL_IF_COLOR_ELSE(GColorDarkGray,GColorWhite));
   graphics_draw_circle(ctx,GPoint(cx,cy),r);
   const char *status=fix_label(now);
-  char civil[9];strftime(civil,sizeof(civil),clock_is_24h_style()?"%H:%M":"%I:%M",&tm);
   if(round) {
     // Give "Saved 59m" and "Stale 171d" their full width. The visible glyphs
     // remain inside the inner disc even though the layout box is wider.
     if(active.hour>=0)text(ctx,status,GRect(cx-inner*80/100,cy+inner*36/100,inner*160/100,18),GColorWhite,false);
-    text(ctx,civil,GRect(cx-26,cy-inner+2,52,18),GColorWhite,false);
   } else {
-    char footer[40];snprintf(footer,sizeof(footer),"%s  %s",civil,status);
-    text(ctx,footer,GRect(0,cy+r+1,b.size.w,b.size.h-cy-r),GColorWhite,false);
+    text(ctx,status,GRect(0,cy+r+1,b.size.w,b.size.h-cy-r),GColorWhite,false);
   }
   time_t end;uint16_t end_ms;time_ms(&end,&end_ms);
   APP_LOG(APP_LOG_LEVEL_INFO,"Planetary time=%02d:%02d:%02d status=%d active=%d mode=%d frame_ms=%ld free=%lu",

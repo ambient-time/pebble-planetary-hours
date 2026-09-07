@@ -2,13 +2,13 @@
 
 Planetary Hours divides daylight and night into twelve parts each. The current ruler moves through the seven classical planets in Chaldean order. A planetary day starts at sunrise, so the hours before dawn still belong to the previous day.
 
-Native Pebble watchface, version 0.1.0. Design and implementation by Luke Steuber, under the MIT license. This release candidate is ready for store preparation after the checks below.
+Native Pebble watchface, version 0.1.1. Design and implementation by Luke Steuber, under the MIT license. This release candidate is ready for store preparation after the checks below.
 
 ## Reading the face
 
 The wheel keeps the original 24 equal wedges, upright planetary symbols, highlighted current hour, and inner radius of 52%. Wedges represent successive planetary hours; their equal visual widths do not imply equal durations. The right half is daylight and the left half is night. The center shows the current planet and minutes remaining, rounded up.
 
-Color screens use the source palette with a static dither for the dark wedges. Monochrome screens use white symbols and a white active wedge with a black symbol. The symbols are drawn with native lines and circles, without a downloaded font. Pebble's limited palette and pixel resolution replace the web face's smooth glow. Civil time and location status sit inside the center on round screens and below the wheel on rectangular screens.
+Color screens use the source palette with a static dither for the dark wedges. Monochrome screens use white symbols and a white active wedge with a black symbol. The symbols are drawn with native lines and circles, without a downloaded font. Pebble's limited palette and pixel resolution replace the web face's smooth glow. Location status sits inside the center on round screens and below the wheel on rectangular screens. Version 0.1.1 removes the added civil-time display; planetary time and its remaining duration stay visible.
 
 ## Phone location and offline use
 
