@@ -124,6 +124,30 @@ static void text(GContext *ctx,const char *label,GRect bounds,GColor color,bool 
   graphics_draw_text(ctx,label,fonts_get_system_font(large?FONT_KEY_GOTHIC_18:FONT_KEY_GOTHIC_14),
     bounds,GTextOverflowModeTrailingEllipsis,GTextAlignmentCenter,NULL);
 }
+#ifndef PBL_ROUND
+static void draw_rectangle(GContext *ctx,GRect b,uint32_t now,PHActive active){
+  int cx=b.size.w/2,cy=b.size.h/2,pitch=(b.size.h-16)/12;
+  if(active.hour>=0){
+    // The two twelve-hour solar halves become vertical rails. Unequal-hour
+    // selection, planet order and the active ruler use the same schedule.
+    for(int i=0;i<24;i++){
+      int x=i<12?18:b.size.w-18,y=8+(i%12)*pitch+pitch/2;
+      bool selected=i==active.hour;int planet=ph_planet(active.weekday,i);
+      GColor ink=planet_color(planet),paper=GColorBlack;
+      if(selected){graphics_context_set_fill_color(ctx,ink);graphics_fill_rect(ctx,GRect(x-14,y-pitch/2,28,pitch-1),2,GCornersAll);paper=ink;ink=GColorBlack;}
+      symbol(ctx,x,y,max_int(5,pitch*35/100),planet,ink,paper);
+    }
+    symbol(ctx,cx,cy-18,b.size.w>=200?23:18,active.planet,planet_color(active.planet),GColorBlack);
+    char remaining[16];snprintf(remaining,sizeof(remaining),"%lum left",(unsigned long)((active.remaining+59)/60));
+    text(ctx,remaining,GRect(34,cy+16,b.size.w-68,22),GColorWhite,b.size.w>=200);
+    text(ctx,fix_label(now),GRect(34,cy+43,b.size.w-68,20),GColorWhite,false);
+  }else{
+    text(ctx,state_label(now,false),GRect(8,cy-22,b.size.w-16,25),GColorWhite,true);
+    text(ctx,"Check phone location",GRect(8,cy+3,b.size.w-16,20),GColorWhite,false);
+    text(ctx,fix_label(now),GRect(8,cy+26,b.size.w-16,20),GColorWhite,false);
+  }
+}
+#endif
 static void draw(Layer *layer,GContext *ctx) {
   time_t begin;uint16_t begin_ms;time_ms(&begin,&begin_ms);
   time_t epoch=time(NULL);struct tm tm=*localtime(&epoch);uint32_t now=(uint32_t)epoch;
@@ -133,6 +157,9 @@ static void draw(Layer *layer,GContext *ctx) {
   GColor background=GColorBlack;
   graphics_context_set_fill_color(ctx,background);graphics_fill_rect(ctx,b,0,GCornerNone);
   graphics_context_set_antialiased(ctx,true);
+#ifndef PBL_ROUND
+  draw_rectangle(ctx,b,now,active);
+#else
   if(active.hour>=0) {
 #ifdef PBL_COLOR
     for(int i=0;i<24;i++) {
@@ -169,6 +196,7 @@ static void draw(Layer *layer,GContext *ctx) {
   } else {
     text(ctx,status,GRect(0,cy+r+1,b.size.w,b.size.h-cy-r),GColorWhite,false);
   }
+#endif
   time_t end;uint16_t end_ms;time_ms(&end,&end_ms);
   APP_LOG(APP_LOG_LEVEL_INFO,"Planetary time=%02d:%02d:%02d status=%d active=%d mode=%d frame_ms=%ld free=%lu",
     tm.tm_hour,tm.tm_min,tm.tm_sec,s_have_schedule?s_schedule.status:0,active.hour,s_schedule.mode,

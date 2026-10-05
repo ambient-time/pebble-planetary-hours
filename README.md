@@ -2,13 +2,13 @@
 
 Planetary Hours divides daylight and night into twelve parts each. The current ruler moves through the seven classical planets in Chaldean order. A planetary day starts at sunrise, so the hours before dawn still belong to the previous day.
 
-Native Pebble watchface, version 0.1.1. Design and implementation by Luke Steuber, under the MIT license. This release candidate is ready for store preparation after the checks below.
+Native Pebble watchface, version 0.1.2. Design and implementation by Luke Steuber, under the MIT license. This release candidate is ready for store preparation after the checks below.
 
 ## Reading the face
 
-The wheel keeps the original 24 equal wedges, upright planetary symbols, highlighted current hour, and inner radius of 52%. Wedges represent successive planetary hours; their equal visual widths do not imply equal durations. The right half is daylight and the left half is night. The center shows the current planet and minutes remaining, rounded up.
+On round watches, the wheel keeps the original 24 equal wedges, upright planetary symbols, highlighted current hour, and inner radius of 52%. Wedges represent successive planetary hours; their equal visual widths do not imply equal durations. The right half is daylight and the left half is night. The center shows the current planet and minutes remaining, rounded up.
 
-Color screens use the source palette with a static dither for the dark wedges. Monochrome screens use white symbols and a white active wedge with a black symbol. The symbols are drawn with native lines and circles, without a downloaded font. Pebble's limited palette and pixel resolution replace the web face's smooth glow. Location status sits inside the center on round screens and below the wheel on rectangular screens. Version 0.1.1 removes the added civil-time display; planetary time and its remaining duration stay visible.
+Color screens use the source palette with a static dither for the dark wedges. Monochrome screens use white symbols and a white active wedge with a black symbol. The symbols are drawn with native lines and circles, without a downloaded font. Pebble's limited palette and pixel resolution replace the web face's smooth glow. Rectangular watches use two vertical rails of twelve planetary symbols, daylight on the left and night on the right. The selected ruler, minutes remaining and location age stay in the center. Both layouts use the same unequal-hour schedule. Version 0.1.1 removes the added civil-time display; planetary time and its remaining duration stay visible.
 
 ## Phone location and offline use
 
@@ -37,7 +37,7 @@ make icon  # optional: regenerate the 25×25 menu icon
 
 Targets: basalt, diorite, emery, flint, chalk, and gabbro. The face refreshes once per second. It does not subscribe to the accelerometer or continuously request location. Frame logs include civil time, zero-based active hour (`-1` when unavailable), status, mode, drawing duration, and remaining heap. Drawing duration uses watch wall time; changing the clock during a fixture can distort that measurement.
 
-`make test` runs the native boundary and decoder tests with sanitizers, 907 source/schedule comparisons, and 20 mocked phone scenarios. The solar suite covers both hemispheres, DST, leap day, year rollover, date-line locations, polar transitions, and invalid inputs. Phone tests cover permission failures and recovery, saved data, malformed cache, travel, bounded transport retries, and preserving the original fix timestamp. Recovery timing and very old fix labels also have native tests, including polar and missing-cycle records with a 4,104-hour-old location. After building, `make build` also runs the bundled companion's actual entry point to check startup, watch requests, denial, permission recovery, and saved-position delivery.
+`make test` runs the native boundary and decoder tests with sanitizers, 907 source/schedule comparisons, and 26 mocked phone scenarios. The solar suite covers both hemispheres, DST, leap day, year rollover, date-line locations, polar transitions, and invalid inputs. Phone tests cover permission failures and recovery, saved data, malformed cache, travel, bounded transport retries, and preserving the original fix timestamp. Recovery timing and very old fix labels also have native tests, including polar and missing-cycle records with a 4,104-hour-old location. After building, `make build` also runs the bundled companion's actual entry point to check startup, watch requests, denial, permission recovery, and saved-position delivery.
 
 The native evidence runner and package validator are separate:
 

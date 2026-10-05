@@ -93,4 +93,13 @@ check(function(){
   assert.strictEqual(w[3],3);assert.strictEqual(w.readUInt32LE(8),captured/1000);
   assert.strictEqual(h.writes,0);assert.strictEqual(h.stored,old);
 });});
+[undefined, null, new Date(clock-60000)].forEach(function(stamp){check(function(){
+  var h=harness();h.app.refresh();h.ok({coords:{latitude:37.7749,longitude:-122.4194},timestamp:stamp});
+  assert.strictEqual(h.sends[0].wire[2],1);
+  assert.strictEqual(h.sends[0].wire.readUInt32LE(8),stamp instanceof Date?(clock-60000)/1000:clock/1000);
+});});
+['bad',NaN,0].forEach(function(stamp){check(function(){
+  var h=harness();h.app.refresh();h.ok({coords:{latitude:0,longitude:0},timestamp:stamp});
+  assert.strictEqual(h.sends[0].wire[3],4);assert.strictEqual(h.writes,0);
+});});
 console.log('Planetary phone: '+tests+' mocked permission, cache, travel, transport and retry scenarios passed');

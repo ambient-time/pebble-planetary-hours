@@ -40,8 +40,13 @@ function companion(env) {
     if (!env.geo || typeof env.geo.getCurrentPosition !== 'function') { failure(2); return; }
     try {
       env.geo.getCurrentPosition(function(p) {
+        // Some phone bridges omit the timestamp or pass a Date. For a missing
+        // timestamp use receipt time; retain supplied fix ages when available.
+        var stamp = p && p.timestamp;
+        if (stamp instanceof Date) stamp = stamp.getTime();
+        if (stamp === undefined || stamp === null) stamp = now();
         var f = {version: 1, lat: p && p.coords && p.coords.latitude,
-          lon: p && p.coords && p.coords.longitude, capturedAt: p && p.timestamp};
+          lon: p && p.coords && p.coords.longitude, capturedAt: stamp};
         if (!valid(f)) { failure(4); return; }
         busy = false;
         try { env.storage.setItem(CACHE, JSON.stringify(f)); } catch (e) { /* The current fix still works. */ }
